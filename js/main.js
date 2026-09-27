@@ -57,7 +57,7 @@ function imprimirGuitarrasEnHTML(lista) {
             <p>Precio: $${guitarra.precio}</p>
             <p>Stock: ${guitarra.stock}</p>
 
-            <button id="eliminar-${guitarra.id}" class="card-boton">
+            <button class="card-boton">
                 Eliminar guitarra
             </button>
         `;
@@ -66,8 +66,7 @@ function imprimirGuitarrasEnHTML(lista) {
 
         // Boton eliminar guitarra
 
-        const btnEliminar = document.getElementById(`eliminar-${guitarra.id}`);
-
+        const btnEliminar = card.querySelector(".card-boton");
         btnEliminar.addEventListener("click", () => {
 
             const indice = inventario.indexOf(guitarra);
@@ -113,6 +112,22 @@ function obtenerGuitarraDelForm() {
             document.getElementById("input-stock").value
         );
 
+        const mensaje = document.getElementById("mensaje");
+
+        //Validacion
+
+        if (
+            inputMarca.trim() === "" ||
+            inputModelo.trim() === "" ||
+            inputAnio <= 0 ||
+            inputPrecio <= 0 ||
+            inputStock < 0
+        ) {
+            mensaje.textContent = "Completá correctamente todos los campos.";
+            return;
+        }
+
+        //Creacion de nueva guitarra
 
         const nuevaGuitarra = new Guitarra(
             inputMarca,
@@ -123,16 +138,11 @@ function obtenerGuitarraDelForm() {
             inputStock
         );
 
-
         inventario.push(nuevaGuitarra);
 
         siguienteId++;
 
-
         imprimirGuitarrasEnHTML(inventario);
-
-
-        const mensaje = document.getElementById("mensaje");
 
         mensaje.textContent =
             "Se agregó " + inputMarca + " " + inputModelo + " correctamente.";
